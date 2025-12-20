@@ -1,0 +1,31 @@
+name: Build Test
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: List ALL files
+        run: |
+          echo "=== ROOT DIRECTORY ==="
+          ls -la
+          echo "=== SEARCHING FOR FILES ==="
+          find . -name "*.py" -o -name "Dockerfile" -o -name "requirements.txt" | head -20
+      
+      - name: Build Docker (if files exist)
+        run: |
+          if [ -f "app.py" ] && [ -f "Dockerfile" ]; then
+            echo "✅ Found app.py and Dockerfile - building..."
+            docker build -t todo-app .
+          else
+            echo "❌ Missing required files"
+            echo "app.py exists: $(test -f app.py && echo 'YES' || echo 'NO')"
+            echo "Dockerfile exists: $(test -f Dockerfile && echo 'YES' || echo 'NO')"
+            exit 1
+          fi

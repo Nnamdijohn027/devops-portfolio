@@ -1,0 +1,19 @@
+# Terraform files
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+
+# Local .terraform directories
+**/.terraform.lock.hcl
+
+# Docker
+Dockerfile
+*.dockerignore
+docker-compose.yml
+
+# Python
+__pycache__/
+*.py[cod]
+venv/
+env/

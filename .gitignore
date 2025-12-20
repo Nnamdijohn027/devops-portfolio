@@ -8,7 +8,6 @@
 **/.terraform.lock.hcl
 
 # Docker
-Dockerfile
 *.dockerignore
 docker-compose.yml
 

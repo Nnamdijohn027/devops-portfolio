@@ -29,3 +29,16 @@ jobs:
             echo "Dockerfile exists: $(test -f Dockerfile && echo 'YES' || echo 'NO')"
             exit 1
           fi
+      - name: Test with PostgreSQL
+        run: |
+          docker run -d --name test-db -e POSTGRES_PASSWORD=test -p 5432:5432 postgres:15
+          sleep 10
+          docker run --rm \
+            -e DB_HOST=host.docker.internal \
+            -e DB_NAME=postgres \
+            -e DB_USER=postgres \
+            -e DB_PASSWORD=test \
+            --network host \
+            todo-app-db &
+          sleep 10
+          curl -f http://localhost:5000 && echo "✅ App with DB works"     

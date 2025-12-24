@@ -29,6 +29,18 @@ Step 6: Automation
 - set up Github Actions pipeline
 - Every code push automatically
 
+Step 7: Database Integration
+- upload pipeline on postgreSQL Database
+- Docker compose setup
+
+Step 8: Monitoring and Observability (needs more work)
+- Prometheus Integration
+- Grafana Dashboard
+
+Step 9: Security Hardening
+- Vulnerability Scanning
+- Security best practices
+
 TOOLS USED:
 1. Python + Flask
 2. Docker
@@ -36,3 +48,6 @@ TOOLS USED:
 4. AWS EC2
 5. Github Actions
 6. Trivy
+7. Prometheus
+8. Grafana
+9. PostgreSQL

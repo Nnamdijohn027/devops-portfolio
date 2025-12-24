@@ -3,7 +3,7 @@ PROJECT: A Todo List Web App with full DevOps pipeline.
 Step 1: The App
 - Made a simple flask web app (app.py)
 - Shows a todo list, can add new items
-- Runs on my computer at localhost:5005
+- Runs on my computer at localhost:5002
 
 Step 2: Containerize
 - containerize the app using docker
@@ -51,3 +51,11 @@ TOOLS USED:
 7. Prometheus
 8. Grafana
 9. PostgreSQL
+
+
+To Employers:
+
+"I built a full-stack application with DevOps practices"
+"I implemented CI/CD pipelines from scratch"
+"I deployed and managed cloud infrastructure"
+"I set up monitoring and security scanning"

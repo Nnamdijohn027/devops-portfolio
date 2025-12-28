@@ -96,3 +96,4 @@ PAGE_VIEWS = Counter('page_views_total', 'Total page views', ['page'])
 def metrics():
     PAGE_VIEWS.labels(page='metrics').inc()
     return generate_latest(REGISTRY), 200, {'Content-Type': CONTENT_TYPE_LATEST}    
+

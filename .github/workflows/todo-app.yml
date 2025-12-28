@@ -41,4 +41,4 @@ jobs:
             --network host \
             todo-app-db &
           sleep 10
-          curl -f http://localhost:5002 && echo "✅ App with DB works"     
+          curl -f http://localhost:5808 && echo "✅ App with DB works"     

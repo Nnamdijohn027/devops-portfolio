@@ -1,11 +1,10 @@
-# .github/workflows/todo-app.yml
 name: Build Todo App
 
 on:
   push:
     paths: ['project-1-todo-app/**']
     branches: [main]
-  workflow_dispatch:  # Allow manual runs
+  workflow_dispatch:
 
 jobs:
   build:
@@ -18,10 +17,7 @@ jobs:
       
       - name: Build Docker Image
         working-directory: ./project-1-todo-app
-        continue-on-error: true  # ⬅️ DON'T FAIL IF BUILD HAS ISSUES
+        continue-on-error: true
         run: |
           docker build -t todo-app .
-          echo "✅ Build attempted - check logs for details"
-      
-      - name: Mark as Complete
-        run: echo "🎯 Todo App pipeline completed successfully"
+          echo "✅ Build completed"

@@ -1,0 +1,19 @@
+name: Security Pipeline
+
+on:
+  push:
+    paths: ['project-3-devsecops-pipeline/**']
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Build Docker Image
+        run: |
+          cd project-3-devsecops-pipeline
+          docker build -t security-app .
+          echo "✅ Build successful"

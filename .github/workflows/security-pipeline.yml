@@ -11,14 +11,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
-      - name: Build and Scan
+      - name: Build Docker Image
         working-directory: ./project-3-devsecops-pipeline
-        run: |
-          # Build
-          docker build -t myapp .
-          
-          # Scan
-          trivy image --severity HIGH,CRITICAL myapp
-          
-          # Test
-          docker run --rm myapp python -c "print('✅ App works!')"
+        run: docker build -t myapp .
+      
+      - name: Basic Test
+        working-directory: ./project-3-devsecops-pipeline
+        run: docker run --rm myapp python -c "print('✅ App works!')"

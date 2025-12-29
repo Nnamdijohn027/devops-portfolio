@@ -2,7 +2,6 @@ name: DevSecOps Pipeline
 
 on:
   push:
-    paths: ['project-3-devsecops-pipeline/**']
     branches: [main]
 
 jobs:

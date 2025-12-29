@@ -1,7 +1,7 @@
 name: Build Todo App
 
 on:
-  push:
+  #push:
     branches: [main]
 
 jobs:

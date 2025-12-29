@@ -1,4 +1,4 @@
-name: Build Todo App
+name: Todo App CI/CD
 
 on:
   push:
@@ -12,12 +12,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
-      - name: Set up Docker Buildx
+      - name: Set up Docker
         uses: docker/setup-buildx-action@v2
       
       - name: Build Docker Image
         working-directory: ./project-1-todo-app
-        continue-on-error: true
         run: |
+          echo "Building Todo App..."
           docker build -t todo-app .
           echo "✅ Build completed"

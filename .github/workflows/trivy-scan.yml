@@ -1,0 +1,40 @@
+name: Simple Security Scan
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-scan:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Build Docker image
+      run: |
+        docker build -t devsecops-app -f docker/Dockerfile app/
+    
+    - name: Run Trivy vulnerability scanner
+      run: |
+        # Install Trivy
+        curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
+        
+        # Scan the image
+        trivy image devsecops-app --severity HIGH,CRITICAL
+        
+        # Count vulnerabilities
+        echo "## Security Scan Results" >> $GITHUB_STEP_SUMMARY
+        echo "Scan completed at: $(date)" >> $GITHUB_STEP_SUMMARY
+        
+    - name: Upload scan results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: trivy-results
+        path: |
+          trivy-output.txt
+        retention-days: 7

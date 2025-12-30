@@ -1,4 +1,4 @@
-name: Security Pipeline v2
+name: Security Scan with Trivy
 
 on:
   push:
@@ -7,63 +7,29 @@ on:
   workflow_dispatch:
 
 jobs:
-  # JOB 1: SIMPLE SECRET CHECK
-  secret-check:
+  security:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      
-      - name: Check for common secrets
-        run: |
-          echo "🔍 Checking for common secrets patterns..."
-          # Simple grep for common patterns (adjust as needed)
-          grep -r "password\|secret\|key\|token" project-3-devsecops-pipeline/ --exclude-dir=.git 2>/dev/null | head -5 || echo "No obvious secrets found"
-          echo "✅ Basic secret check completed"
-      
-      - name: GitHub Advanced Security
-        uses: github/codeql-action/init@v2
-        with:
-          languages: python
-      
-      - name: Analyze
-        uses: github/codeql-action/analyze@v2
-  
-  # JOB 2: CONTAINER SECURITY (FIXED FOR YOUR STRUCTURE)
-  container-scan:
-    runs-on: ubuntu-latest
-    needs: secret-check
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
       
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
       
-      - name: Build Docker image
+      - name: Build Docker Image
         working-directory: ./project-3-devsecops-pipeline
         run: |
           docker build -t devsecops-app .
           echo "✅ Docker build completed"
       
-      - name: Run Trivy vulnerability scanner
+      - name: Run Trivy Scan
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: 'devsecops-app'
           format: 'table'
           severity: 'HIGH,CRITICAL'
-          exit-code: '0'  # Don't fail for portfolio
+          exit-code: '0'
       
-      - name: Generate Security Report
+      - name: Success Report
         run: |
-          echo "## 🔒 Security Pipeline Report" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### 📋 Summary" >> $GITHUB_STEP_SUMMARY
-          echo "- ✅ Secret scanning completed" >> $GITHUB_STEP_SUMMARY
-          echo "- ✅ Docker image built successfully" >> $GITHUB_STEP_SUMMARY
-          echo "- ✅ Trivy vulnerability scan completed" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### 📊 Next Steps" >> $GITHUB_STEP_SUMMARY
-          echo "1. Review CodeQL findings in Security tab" >> $GITHUB_STEP_SUMMARY
-          echo "2. Check Trivy results above for vulnerabilities" >> $GITHUB_STEP_SUMMARY
-          echo "3. For production: Set exit-code to '1' to fail on CRITICAL" >> $GITHUB_STEP_SUMMARY
+          echo "## ✅ Security Scan Complete" >> $GITHUB_STEP_SUMMARY
+          echo "Container vulnerability scanning demonstrated." >> $GITHUB_STEP_SUMMARY

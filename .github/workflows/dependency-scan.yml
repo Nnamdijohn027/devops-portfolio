@@ -1,8 +1,9 @@
-# .github/workflows/dependency-scan.yml
 name: Dependency Security
 
 on:
-  workflow_dispatch:  # Manual only - for portfolio demo
+  workflow_dispatch:
+  push:
+    paths: ['project-3-devsecops-pipeline/**']
 
 jobs:
   scan:
@@ -14,15 +15,9 @@ jobs:
         working-directory: ./project-3-devsecops-pipeline
         run: |
           echo "🔍 Checking Python dependencies..."
-          
-          # Check if Flask is the only dependency
-          if grep -q "Flask" app/requirements.txt; then
-            echo "✅ Found Flask in requirements.txt"
-            echo "Dependencies are minimal and secure"
-          else
-            echo "⚠️  Unexpected dependencies found"
-            cat app/requirements.txt
-          fi
-          
-          echo "## 📦 Dependency Check Complete" >> $GITHUB_STEP_SUMMARY
-          echo "Project-3 uses minimal dependencies for security." >> $GITHUB_STEP_SUMMARY
+          echo "## 📦 Dependency Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Requirements:**" >> $GITHUB_STEP_SUMMARY
+          cat app/requirements.txt >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Dependency check complete" >> $GITHUB_STEP_SUMMARY

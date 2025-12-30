@@ -1,0 +1,32 @@
+# .github/workflows/dependency-scan.yml
+name: Dependency Security
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'  # Weekly on Sunday
+  push:
+    branches: [ main ]
+
+jobs:
+  python-deps:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          
+      - name: Install safety
+        run: pip install safety
+      
+      - name: Scan Python dependencies
+        run: |
+          echo "## Python Dependency Security" >> $GITHUB_STEP_SUMMARY
+          safety check -r app/requirements.txt --full-report || true
+          
+      - name: Update dependencies
+        run: |
+          pip install pip-audit
+          pip-audit -r app/requirements.txt
